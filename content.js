@@ -30,7 +30,7 @@ function createOverlay() {
     overlay.id = "tailwind-overlay";
     overlay.style.position = "fixed";
     overlay.style.bottom = "10px";
-    overlay.style.right = "10px";
+    overlay.style.right = "10px"; // Start on the right
     overlay.style.padding = "8px 12px";
     overlay.style.background = "rgba(0,0,0,0.8)";
     overlay.style.color = "white";
@@ -38,7 +38,23 @@ function createOverlay() {
     overlay.style.fontSize = "14px";
     overlay.style.fontFamily = "Arial, sans-serif";
     overlay.style.zIndex = "9999";
+    overlay.style.cursor = "ew-resize";
+    overlay.style.transition = "all 0.5s ease-in-out"; // Smooth transition
+    overlay.style.userSelect = "none"; // Make text unselectable
+
+    let isOnRight = true; // Track position
+
+    overlay.addEventListener("click", function () {
+        if (isOnRight) {
+            overlay.style.right = `calc(100% - ${overlay.offsetWidth}px - 10px)`;
+        } else {
+            overlay.style.right = "10px";
+        }
+        isOnRight = !isOnRight; // Toggle position state
+    });
+
     document.body.appendChild(overlay);
+
 
     function updateOverlay() {
         const width = window.innerWidth;
@@ -61,4 +77,3 @@ function createOverlay() {
     // Update on resize
     window.addEventListener("resize", updateOverlay);
 }
-
